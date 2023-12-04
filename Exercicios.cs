@@ -23,25 +23,30 @@ namespace ProjetoAulas
 
             //int minTk = tk.Length;
             //int maxTk = tk.Length * 3;
-            //var test1 = BatataQuente(tk, minTk, maxTk);
+            //var test1 = HotPotato(tk, minTk, maxTk);
 
-            //var test2 = EBatataQuente(mb, 3, 3);
+            //var test2 = HotPotato(mb, 3, 3);
 
-            //var test3 = BatataQuente(op, 1, 7);
+            //var test3 = HotPotato(op, 1, 7);
 
             //app.MapGet("/exercicioBatataQuente", () => { return test3; });
 
             app.MapGet("/exercicioPalindromo", () =>
             {
                 return
-                $"{IsPalindromo("ADA")}\n" +
-                $"{IsPalindromo("Lovelace").ToString()}\n" +
-                $"{IsPalindromo("ímpar").ToString()}\n" +
-                $"{IsPalindromo("Omissíssimo")}\n" +
-                $"{IsPalindromo("A grama é amarga")}\n" +
-                $"{IsPalindromo("2002")}\n" +
-                $"{IsPalindromo("A mala nada na lama")}\n";
-            });            
+                $"{IsPalindrome("ADA")}\n" +
+                $"{IsPalindrome("Lovelace").ToString()}\n" +
+                $"{IsPalindrome("ímpar").ToString()}\n" +
+                $"{IsPalindrome("Omissíssimo")}\n" +
+                $"{IsPalindrome("A grama é amarga")}\n" +
+                $"{IsPalindrome("2002")}\n" +
+                $"{IsPalindrome("A mala nada na lama")}\n";
+            });
+
+            app.MapGet("/exercicioEscalonador", () =>
+            {
+
+            });
         }
 
 
@@ -56,7 +61,7 @@ namespace ProjetoAulas
         /// </summary>
         /// <param name="players">Nome dos jogadores</param>
         /// <returns></returns>
-        public static string BatataQuente(string[] players, int minPasses, int maxPasses)
+        public static string HotPotato(string[] players, int minPasses, int maxPasses)
         {
             Queue<string> names = new();
 
@@ -111,7 +116,7 @@ namespace ProjetoAulas
         //Utilize filas para resolver esse problema.
 
         //```csharp
-        public static string IsPalindromo(string wordOrPhrase)
+        public static string IsPalindrome(string wordOrPhrase)
         {           
             var word = wordOrPhrase.Replace(" ", ""); // retira espacos em branco
             
@@ -171,9 +176,6 @@ namespace ProjetoAulas
             Console.WriteLine("________________________________________");
             return isPalindrome;
 
-
-
-
             void controle()
             {
                 Console.WriteLine();
@@ -193,14 +195,44 @@ namespace ProjetoAulas
         }
 
         //```
-
-        //3) Um escalonador de tarefas é um sistem que gerencia a execução de tarefas no computador.Utilize filas para implementar um escalonador de tarefas simples, que execute elas na ordem que forem submetidas.A função não precisa ter nenhum retorno. Obs: As tarefas executam por um período x de tempo.
+        //3) Um escalonador de tarefas é um sistem que gerencia a execução de tarefas no computador.
+        //Utilize filas para implementar um escalonador de tarefas simples, que execute elas na ordem que
+        //forem submetidas.A função não precisa ter nenhum retorno.
+        //Obs: As tarefas executam por um período x de tempo.
 
         //```csharp
 
+        public class TaskScheduler
+        {
+            private Queue<Task> tasks = new();
+            public void AddTask(Task task)
+            {
+                tasks.Enqueue(task);
+            }
+
+            public async void RunTasks(int numberOfTasks)
+            {
+                try
+                {
+                    for (int i = 0; i < numberOfTasks; i++)
+                    {
+                        Task actualTask = tasks.Dequeue();                        
+                        await actualTask;
+                        Console.WriteLine("Tarefa completada com sucesso!");
+                    }                    
+                }
+                catch (Exception e) 
+                {
+                    Console.WriteLine($"Não há tarefas na fila! \n");
+                    return;
+                }
+            }
+
+        }
 
 
         //```
+
     }
 
 }
